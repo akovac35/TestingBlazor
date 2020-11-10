@@ -1,0 +1,20 @@
+@page "/loadingindicator"
+
+<p>OnInitializedCounter will increase by one when this page was rendered from an established Blazor connection (i.e. we invoked the index page first). It will increase by two otherwise. Use OnAfterRender to initialize component if this is a problem.</p>
+<br />
+<p>OnInitializedCounter: @OnInitializedCounter</p>
+<p>OnAfterRenderCounter: @OnAfterRenderCounter</p>
+<br />
+@if (!Initialized)
+{
+    <p>Loading ...</p>
+}
+else
+{
+    <p>Ready.</p>
+    <br />
+    <div>
+        <button @onclick="ExecuteActivity1">Execute activity 1</button>&nbsp;<span>@Activity1Status</span>
+    </div>
+}
+

@@ -1,0 +1,54 @@
+﻿@page "/validations"
+
+<EditForm EditContext="@editContext">
+    <label>
+        Ime:
+        <InputText @bind-Value="@person.FirstName" />
+        <ValidationMessage For="@(() => person.FirstName)" />
+    </label>
+    <br />
+    <label>
+        Priimek:
+        <InputText @bind-Value="@person.LastName" />
+        <ValidationMessage For="@(() => person.LastName)" />
+    </label>
+    <br />
+    <label>
+        Starost:
+        <InputNumber TValue="int" @bind-Value="@person.Age" />
+        <ValidationMessage For="@(() => person.Age)" />
+    </label>
+    <br />
+    <button @onclick="@OnClick">Validate</button>
+    <br />
+    <ValidationSummary />
+    <PersonValidatorComponent @ref="Validator"></PersonValidatorComponent>
+</EditForm>
+
+<p>Is valid: @IsValid</p>
+
+@code {
+    private Person person = new Person();
+    private EditContext editContext;
+    private PersonValidatorComponent Validator { get; set; }
+    private bool IsValid { get; set; }
+
+    protected override void OnInitialized()
+    {
+        editContext = new EditContext(person);
+    }
+
+    void OnClick()
+    {
+        if(Validator.Validate(person))
+        {
+            IsValid = true;
+        }
+        else
+        {
+            IsValid = false;
+        }
+
+        // StateHasChanged();
+    }
+}
