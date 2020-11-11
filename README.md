@@ -8,3 +8,5 @@ The following is included:
 * page loading indicator.
 
 Clone this repository locally and execute ```dotnet run``` to run the application.
+
+### Stars are appreciated :)
