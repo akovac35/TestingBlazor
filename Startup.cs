@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TestingBlazor.Data;
+using TestingBlazor.Services;
 
 namespace TestingBlazor
 {

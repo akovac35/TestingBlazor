@@ -2,13 +2,16 @@
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 
-public class ValidateAuthentication : IMiddleware
+namespace TestingBlazor.Services
 {
-    public async Task InvokeAsync(HttpContext context, RequestDelegate next)
+    public class ValidateAuthentication : IMiddleware
     {
-        if (context.User.Identity.IsAuthenticated)
-            await next(context);
-        else
-            await context.ChallengeAsync();
+        public async Task InvokeAsync(HttpContext context, RequestDelegate next)
+        {
+            if (context.User.Identity.IsAuthenticated)
+                await next(context);
+            else
+                await context.ChallengeAsync();
+        }
     }
 }
