@@ -3,12 +3,11 @@ using Microsoft.AspNetCore.Components.Forms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using TestingBlazor.Models;
 
 namespace TestingBlazor.Validators
 {
-    public class PersonValidatorComponent: ComponentBase
+    public class PersonValidatorComponent : ComponentBase
     {
         private ValidationMessageStore messageStore;
 
@@ -61,7 +60,7 @@ namespace TestingBlazor.Validators
             var result = validator.Validate(p);
 
             var errors = result.Errors.GroupBy(item => item.PropertyName).ToDictionary(g => g.Key, g => g.Select(item => item.ErrorMessage).ToList());
-            
+
             ClearErrors();
             if (errors.Count > 0)
             {

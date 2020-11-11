@@ -1,0 +1,33 @@
+﻿@page "/security"
+@attribute [Authorize]
+
+<h3>Security</h3>
+
+<p>The current authenticated user:</p>
+<div id="jsonRender"></div>
+
+<p>Invoke secured api with the current identity: </p>
+<button @onclick="@InvokeSecuredApi">Invoke</button>
+
+@code {
+    [Inject]
+    IJSRuntime JsRuntimeInstance { get; set; }
+
+    [Inject]
+    AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        var currentIdentity = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User.Identity;
+        var jsonString = JsonConvert.SerializeObject(currentIdentity, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore, Formatting = Formatting.None });
+        await JsRuntimeInstance.InvokeVoidAsync("TestingBlazor.renderJson", "jsonRender", jsonString);
+    }
+
+    void InvokeSecuredApi()
+    {
+        var url = "api/requireauthentication";
+        _ = JsRuntimeInstance.InvokeVoidAsync("open", url, "_blank");
+    }
+}

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Negotiate;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -22,7 +23,13 @@ namespace TestingBlazor
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+
+            services.AddHttpContextAccessor();
+
             services.AddSingleton<WeatherForecastService>();
+            services.AddSingleton<ValidateAuthentication>();
+
+            services.AddAuthentication(NegotiateDefaults.AuthenticationScheme).AddNegotiate();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,13 +49,24 @@ namespace TestingBlazor
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+
             app.UseRouting();
+
+            app.UseAuthentication();
+            // Without this custom code Windows authentication is not working
+            // because no challenge is sent to the browser.
+            // Remove this line to confirm authorization works.
+            app.UseMiddleware<ValidateAuthentication>();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapBlazorHub();
+                endpoints.MapControllers();
                 endpoints.MapFallbackToPage("/_Host");
             });
+
+
         }
     }
 }
