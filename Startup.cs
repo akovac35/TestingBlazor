@@ -5,7 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TestingBlazor.Data;
-using TestingBlazor.Services;
 
 namespace TestingBlazor
 {
@@ -28,9 +27,11 @@ namespace TestingBlazor
             services.AddHttpContextAccessor();
 
             services.AddSingleton<WeatherForecastService>();
-            services.AddSingleton<ValidateAuthentication>();
 
             services.AddAuthentication(NegotiateDefaults.AuthenticationScheme).AddNegotiate();
+            // Windows authentication may not be applied with Kestrel without this line
+            services.AddAuthorization(options => options.FallbackPolicy = options.DefaultPolicy);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,14 +51,9 @@ namespace TestingBlazor
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-
             app.UseRouting();
 
             app.UseAuthentication();
-            // Without this custom code Windows authentication is not working
-            // because no challenge is sent to the browser.
-            // Remove this line to confirm authorization works.
-            app.UseMiddleware<ValidateAuthentication>();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
