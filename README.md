@@ -1,5 +1,5 @@
 # TestingBlazor
-A sandbox project for testing Blazor features on .NET 5.
+A sandbox project for testing Blazor features on .NET 5. Tested with Chrome.
 
 The following is included:
 
