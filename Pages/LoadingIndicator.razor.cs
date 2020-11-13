@@ -6,13 +6,13 @@ namespace TestingBlazor.Pages
 {
     public partial class LoadingIndicator : ComponentBase
     {
-        protected bool Initialized
-        {
-            get;
-            set;
-        }
-
         static int OnInitializedCounter { get; set; }
+
+        protected bool Initialized { get; set; }
+
+        protected bool Initializing { get; set; }
+
+        protected string Activity1Status { get; set; }
 
         protected int OnAfterRenderCounter { get; set; }
 
@@ -29,11 +29,19 @@ namespace TestingBlazor.Pages
         {
             Console.WriteLine("OnInitializedAsync");
 
-            if (!Initialized)
+            if (!Initialized && !Initializing)
             {
-                await Task.Delay(2000);
-                Initialized = true;
-                StateHasChanged();
+                Initializing = true;
+
+                try
+                {
+                    await Task.Delay(2000);
+                }
+                finally
+                {
+                    Initializing = false;
+                    Initialized = true;
+                }
             }
         }
 
@@ -42,19 +50,15 @@ namespace TestingBlazor.Pages
             base.OnAfterRender(firstRender);
 
             OnAfterRenderCounter++;
-        }
-
-        string Activity1Status { get; set; }
+        }        
 
         protected async Task ExecuteActivity1()
         {
             Activity1Status = "Executing activity 1 ...";
-            StateHasChanged();
 
             await Task.Delay(2000);
 
             Activity1Status = "Activity 1 executed.";
-            StateHasChanged();
         }
     }
 }
