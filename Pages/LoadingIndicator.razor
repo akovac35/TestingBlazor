@@ -13,8 +13,19 @@ else
 {
     <p>Ready.</p>
     <br />
+    <p>Activity1 is an async method which awaits a two seconds delay task. It will result in two page renders!</p>
     <div>
-        <button @onclick="ExecuteActivity1">Execute activity 1</button>&nbsp;<span>@Activity1Status</span>
+        <button @onclick="ExecuteActivity1Async">Execute activity 1</button>&nbsp;<span>@Activity1Status</span>
+    </div>
+    <br />
+    <p>Activity2 is a method which returns a completed task. It will result in one page render.</p>
+    <div>
+        <button @onclick="ExecuteActivity2">Execute activity 2</button>&nbsp;<span>@Activity2Status</span>
+    </div>
+    <br />
+    <p>Activity3 is a method which returns a two seconds delay task. It will result in two page renders, the last one will occur once the task completes.</p>
+    <div>
+        <button @onclick="ExecuteActivity3">Execute activity 3</button>&nbsp;<span>@Activity3Status</span>
     </div>
 }
 
