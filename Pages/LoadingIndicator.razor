@@ -27,5 +27,15 @@ else
     <div>
         <button @onclick="ExecuteActivity3">Execute activity 3</button>&nbsp;<span>@Activity3Status</span>
     </div>
+    <br />
+    <p>Activity4 is an async method which awaits two tasks of two seconds delay. It will result in 3 page renders because it is configured to update the screen after the first task is complete!</p>
+    <div>
+        <button @onclick="ExecuteActivity4Async">Execute activity 4</button>&nbsp;<span>@Activity4Status</span>
+    </div>
+    <br />
+    <p>Activity5 is a sync method. It will result in one page render even if we try to update the screen during the execution.</p>
+    <div>
+        <button @onclick="ExecuteActivity5">Execute activity 5</button>&nbsp;<span>@Activity5Status</span>
+    </div>
 }
 

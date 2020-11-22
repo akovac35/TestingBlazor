@@ -18,6 +18,10 @@ namespace TestingBlazor.Pages
 
         protected string Activity3Status { get; set; }
 
+        protected string Activity4Status { get; set; }
+
+        protected string Activity5Status { get; set; }
+
         protected int OnAfterRenderCounter { get; set; }
 
         protected override void OnInitialized()
@@ -77,6 +81,33 @@ namespace TestingBlazor.Pages
             Activity3Status = "Activity 3 executing. The page will make another render once the task completes.";
 
             return Task.Delay(2000);
+        }
+
+        protected async Task ExecuteActivity4Async()
+        {
+            Activity4Status = "Executing activity 4 ...";
+
+            await Task.Delay(2000);
+
+            Activity4Status = "Activity 4 executed half of work ...";
+
+            // This is required or we will not see the intermediate status update above
+            StateHasChanged();
+
+            await Task.Delay(2000);
+
+            Activity4Status = "Activity 4 executed.";
+        }
+
+        protected void ExecuteActivity5()
+        {
+            Activity5Status = "This is not rendered!";
+
+            StateHasChanged();
+
+            Task.Delay(2000).Wait() ;
+
+            Activity5Status = "Activity 5 executed.";
         }
     }
 }

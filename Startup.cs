@@ -58,7 +58,9 @@ namespace TestingBlazor
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapBlazorHub();
+                endpoints.MapBlazorHub(options => {
+                    // options.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.LongPolling;
+                });
                 endpoints.MapControllers();
                 endpoints.MapFallbackToPage("/_Host");
             });
