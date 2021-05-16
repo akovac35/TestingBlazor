@@ -8,6 +8,8 @@ namespace TestingBlazor.Pages
     {
         static int OnInitializedCounter { get; set; }
 
+        static int OnInitializedAsyncCounter { get; set; }
+
         protected bool Initialized { get; set; }
 
         protected bool Initializing { get; set; }
@@ -28,29 +30,20 @@ namespace TestingBlazor.Pages
         {
             Console.WriteLine("OnInitialized");
 
-            base.OnInitialized();
-
             OnInitializedCounter++;
+
+            base.OnInitialized();
         }
 
         protected override async Task OnInitializedAsync()
         {
             Console.WriteLine("OnInitializedAsync");
 
-            if (!Initialized && !Initializing)
-            {
-                Initializing = true;
+            OnInitializedAsyncCounter += 1;
 
-                try
-                {
-                    await Task.Delay(2000);
-                }
-                finally
-                {
-                    Initializing = false;
-                    Initialized = true;
-                }
-            }
+            await Task.Delay(2000);
+
+            Initialized = true;
         }
 
         protected override void OnAfterRender(bool firstRender)
